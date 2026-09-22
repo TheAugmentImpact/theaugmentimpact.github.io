@@ -21,23 +21,32 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: #ffffff;
+            min-height: 100dvh;
+
+            overflow-x: hidden;
+
+            background: #82c2c5;
+
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* Main gradient background */
+        /* Full-screen gradient background */
 
         .container {
             position: relative;
-            width: 96%;
-            max-width: 1600px;
-            min-height: 85vh;
+
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
 
             display: flex;
             flex-direction: column;
@@ -45,7 +54,7 @@
             justify-content: center;
 
             padding: 60px 25px;
-            border-radius: 38px;
+
             overflow: hidden;
 
             background: radial-gradient(
@@ -64,7 +73,10 @@
         .content {
             position: relative;
             z-index: 5;
+
             width: 100%;
+            max-width: 1500px;
+
             color: white;
         }
 
@@ -72,11 +84,15 @@
 
         h1 {
             font-family: 'Barlow Condensed', sans-serif;
+
             font-size: clamp(48px, 8vw, 125px);
             font-weight: 600;
+
             letter-spacing: 5px;
             line-height: 1.1;
+
             color: #ffffff;
+
             white-space: nowrap;
         }
 
@@ -86,18 +102,22 @@
             margin-top: 25px;
 
             font-family: 'Montserrat', sans-serif;
+
             font-size: clamp(12px, 2vw, 26px);
             font-weight: 400;
+
             letter-spacing: 3px;
             line-height: 1.6;
 
             color: white;
+
             white-space: nowrap;
         }
 
         .augment {
             position: relative;
             display: inline-block;
+
             font-weight: 700;
         }
 
@@ -105,14 +125,17 @@
 
         .sparkle {
             position: absolute;
+
             top: -15px;
             right: -14px;
 
             color: #fff5c7;
+
             font-size: 22px;
             font-weight: 400;
 
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            text-shadow:
+                0 0 8px rgba(255,255,255,0.6);
         }
 
         /* Coming Soon */
@@ -121,11 +144,14 @@
             margin-top: 24px;
 
             font-family: 'Montserrat', sans-serif;
+
             font-size: clamp(22px, 3vw, 43px);
             font-weight: 400;
+
             letter-spacing: 9px;
 
             color: white;
+
             white-space: nowrap;
         }
 
@@ -134,6 +160,7 @@
         .dots {
             display: inline-flex;
             width: 1.5em;
+
             letter-spacing: 0;
             justify-content: flex-start;
         }
@@ -152,6 +179,7 @@
         }
 
         @keyframes dotAnimation {
+
             0%, 15% {
                 opacity: 0;
             }
@@ -163,6 +191,7 @@
             90%, 100% {
                 opacity: 0;
             }
+
         }
 
         /* Organic glass bubbles */
@@ -175,7 +204,8 @@
                 43% 57% 62% 38% /
                 48% 42% 58% 52%;
 
-            border: 2px solid rgba(255,255,255,0.35);
+            border: 2px solid
+                rgba(255,255,255,0.35);
 
             background: radial-gradient(
                 ellipse at 28% 22%,
@@ -186,15 +216,19 @@
             );
 
             box-shadow:
-                inset 5px 6px 15px rgba(255,255,255,0.35),
-                inset -8px -10px 20px rgba(255,255,255,0.12),
-                0 0 20px rgba(255,255,255,0.08);
+                inset 5px 6px 15px
+                    rgba(255,255,255,0.35),
+                inset -8px -10px 20px
+                    rgba(255,255,255,0.12),
+                0 0 20px
+                    rgba(255,255,255,0.08);
 
             backdrop-filter: blur(3px);
 
             pointer-events: none;
 
-            animation: floatBubble 9s ease-in-out infinite alternate;
+            animation: floatBubble
+                9s ease-in-out infinite alternate;
         }
 
         /* Large organic bubbles */
@@ -345,20 +379,28 @@
         /* Gentle bubble movement */
 
         @keyframes floatBubble {
+
             0% {
-                transform: translate(0, 0) rotate(0deg);
+                transform:
+                    translate(0, 0)
+                    rotate(0deg);
             }
 
             50% {
-                transform: translate(12px, -18px) rotate(8deg);
+                transform:
+                    translate(12px, -18px)
+                    rotate(8deg);
             }
 
             100% {
-                transform: translate(-10px, 12px) rotate(-6deg);
+                transform:
+                    translate(-10px, 12px)
+                    rotate(-6deg);
             }
+
         }
 
-        /* Mobile responsiveness */
+        /* Tablet responsiveness */
 
         @media (max-width: 900px) {
 
@@ -379,17 +421,15 @@
 
         }
 
-        @media (max-width: 600px) {
+        /* Mobile responsiveness */
 
-            body {
-                padding: 0;
-            }
+        @media (max-width: 600px) {
 
             .container {
                 width: 100%;
                 min-height: 100vh;
                 min-height: 100dvh;
-                border-radius: 0;
+
                 padding: 40px 15px;
             }
 
@@ -403,12 +443,14 @@
                 font-size: 14px;
                 letter-spacing: 0.5px;
                 white-space: normal;
+
                 margin-top: 20px;
             }
 
             .coming-soon {
                 font-size: 22px;
                 letter-spacing: 4px;
+
                 margin-top: 20px;
             }
 
@@ -418,13 +460,29 @@
                 right: -10px;
             }
 
-            .bubble1,
-            .bubble2,
+            .bubble1 {
+                width: 230px;
+                height: 210px;
+            }
+
+            .bubble2 {
+                width: 220px;
+                height: 200px;
+            }
+
             .bubble3 {
-                transform: scale(0.7);
+                width: 210px;
+                height: 240px;
+            }
+
+            .bubble4 {
+                width: 100px;
+                height: 130px;
             }
 
         }
+
+        /* Accessibility */
 
         @media (prefers-reduced-motion: reduce) {
 
