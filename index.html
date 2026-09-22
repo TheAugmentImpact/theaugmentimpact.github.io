@@ -41,32 +41,82 @@
 
         /* Full-screen gradient background */
 
-        .container {
-            position: relative;
+       
+/* Full-screen animated gradient */
 
-            width: 100%;
-            min-height: 100vh;
-            min-height: 100dvh;
+.container {
+    position: relative;
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
 
-            padding: 60px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-            overflow: hidden;
+    padding: 60px 25px;
+    overflow: hidden;
 
-            background: radial-gradient(
-                ellipse at center,
-                #8bb9ca 0%,
-                #82c2c5 45%,
-                #77cdbb 100%
-            );
+    background: linear-gradient(
+        120deg,
+        #77cdbb,
+        #8bb9ca,
+        #78b8cc,
+        #77cdbb
+    );
 
-            text-align: center;
-            isolation: isolate;
-        }
+    background-size: 300% 300%;
+
+    animation: gradientMove 15s ease infinite;
+
+    text-align: center;
+    isolation: isolate;
+}
+
+/* Slowly moving background */
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Dark blue color that follows the cursor */
+
+.container::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    background: radial-gradient(
+        circle 300px at
+        var(--mouse-x, 50%)
+        var(--mouse-y, 50%),
+
+        rgba(35, 104, 161, 0.65) 0%,
+        rgba(48, 127, 176, 0.35) 35%,
+        rgba(48, 127, 176, 0) 75%
+    );
+
+    opacity: var(--glow-opacity, 0);
+
+    pointer-events: none;
+
+    transition: opacity 3s ease;
+}
 
         /* Main content */
 
@@ -541,6 +591,57 @@
         </div>
 
     </main>
+
+
+<script>
+
+const container = document.querySelector(".container");
+
+let fadeTimer;
+
+container.addEventListener("pointermove", function(event) {
+
+    // Find the cursor position inside the page
+
+    const rect = container.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Move the darker blue glow to the cursor
+
+    container.style.setProperty("--mouse-x", x + "px");
+    container.style.setProperty("--mouse-y", y + "px");
+
+    // Make the glow visible
+
+    container.style.setProperty("--glow-opacity", "1");
+
+    // Reset the fade timer whenever the cursor moves
+
+    clearTimeout(fadeTimer);
+
+    // Fade the glow away after the cursor stops moving
+
+    fadeTimer = setTimeout(function() {
+
+        container.style.setProperty("--glow-opacity", "0");
+
+    }, 500);
+
+});
+
+// Fade away when the cursor leaves the website
+
+container.addEventListener("pointerleave", function() {
+
+    clearTimeout(fadeTimer);
+
+    container.style.setProperty("--glow-opacity", "0");
+
+});
+
+</script>
 
 </body>
 </html>
