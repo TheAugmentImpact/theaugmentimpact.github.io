@@ -1,14 +1,488 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <title>The Augment Impact</title>
+
+    <title>The Augment Impact | Coming Soon</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Main gradient background */
+
+        .container {
+            position: relative;
+            width: 96%;
+            max-width: 1600px;
+            min-height: 85vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            padding: 60px 25px;
+            border-radius: 38px;
+            overflow: hidden;
+
+            background: radial-gradient(
+                ellipse at center,
+                #8bb9ca 0%,
+                #82c2c5 45%,
+                #77cdbb 100%
+            );
+
+            text-align: center;
+            isolation: isolate;
+        }
+
+        /* Main content */
+
+        .content {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            color: white;
+        }
+
+        /* Main heading */
+
+        h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(48px, 8vw, 125px);
+            font-weight: 600;
+            letter-spacing: 5px;
+            line-height: 1.1;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        /* Tagline */
+
+        .tagline {
+            margin-top: 25px;
+
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(12px, 2vw, 26px);
+            font-weight: 400;
+            letter-spacing: 3px;
+            line-height: 1.6;
+
+            color: white;
+            white-space: nowrap;
+        }
+
+        .augment {
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        /* Stationary sparkle */
+
+        .sparkle {
+            position: absolute;
+            top: -15px;
+            right: -14px;
+
+            color: #fff5c7;
+            font-size: 22px;
+            font-weight: 400;
+
+            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+
+        /* Coming Soon */
+
+        .coming-soon {
+            margin-top: 24px;
+
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(22px, 3vw, 43px);
+            font-weight: 400;
+            letter-spacing: 9px;
+
+            color: white;
+            white-space: nowrap;
+        }
+
+        /* Animated dots */
+
+        .dots {
+            display: inline-flex;
+            width: 1.5em;
+            letter-spacing: 0;
+            justify-content: flex-start;
+        }
+
+        .dots span {
+            opacity: 0;
+            animation: dotAnimation 1.5s infinite;
+        }
+
+        .dots span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .dots span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes dotAnimation {
+            0%, 15% {
+                opacity: 0;
+            }
+
+            35%, 75% {
+                opacity: 1;
+            }
+
+            90%, 100% {
+                opacity: 0;
+            }
+        }
+
+        /* Organic glass bubbles */
+
+        .bubble {
+            position: absolute;
+            z-index: 1;
+
+            border-radius:
+                43% 57% 62% 38% /
+                48% 42% 58% 52%;
+
+            border: 2px solid rgba(255,255,255,0.35);
+
+            background: radial-gradient(
+                ellipse at 28% 22%,
+                rgba(255,255,255,0.48) 0%,
+                rgba(255,255,255,0.18) 25%,
+                rgba(255,255,255,0.04) 65%,
+                rgba(255,255,255,0.12) 100%
+            );
+
+            box-shadow:
+                inset 5px 6px 15px rgba(255,255,255,0.35),
+                inset -8px -10px 20px rgba(255,255,255,0.12),
+                0 0 20px rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(3px);
+
+            pointer-events: none;
+
+            animation: floatBubble 9s ease-in-out infinite alternate;
+        }
+
+        /* Large organic bubbles */
+
+        .bubble1 {
+            width: 350px;
+            height: 310px;
+
+            top: -140px;
+            left: -90px;
+
+            animation-duration: 11s;
+        }
+
+        .bubble2 {
+            width: 330px;
+            height: 300px;
+
+            bottom: -130px;
+            left: -90px;
+
+            border-radius:
+                55% 45% 38% 62% /
+                42% 60% 40% 58%;
+
+            animation-duration: 13s;
+            animation-delay: -4s;
+        }
+
+        .bubble3 {
+            width: 300px;
+            height: 340px;
+
+            bottom: -120px;
+            right: -100px;
+
+            border-radius:
+                62% 38% 55% 45% /
+                48% 58% 42% 52%;
+
+            animation-duration: 12s;
+            animation-delay: -3s;
+        }
+
+        .bubble4 {
+            width: 150px;
+            height: 190px;
+
+            top: 12%;
+            right: 4%;
+
+            border-radius:
+                60% 40% 43% 57% /
+                48% 60% 40% 52%;
+
+            animation-duration: 10s;
+            animation-delay: -5s;
+        }
+
+        /* Smaller floating bubbles */
+
+        .bubble5 {
+            width: 65px;
+            height: 80px;
+
+            top: 10%;
+            left: 24%;
+
+            animation-duration: 8s;
+        }
+
+        .bubble6 {
+            width: 55px;
+            height: 70px;
+
+            top: 52%;
+            left: 8%;
+
+            animation-duration: 9s;
+            animation-delay: -2s;
+        }
+
+        .bubble7 {
+            width: 70px;
+            height: 85px;
+
+            bottom: 10%;
+            right: 23%;
+
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        .bubble8 {
+            width: 35px;
+            height: 35px;
+
+            top: 16%;
+            right: 22%;
+
+            animation-duration: 7s;
+        }
+
+        .bubble9 {
+            width: 38px;
+            height: 38px;
+
+            bottom: 15%;
+            left: 25%;
+
+            animation-duration: 8s;
+            animation-delay: -3s;
+        }
+
+        .bubble10 {
+            width: 30px;
+            height: 30px;
+
+            top: 37%;
+            left: 5%;
+
+            animation-duration: 6s;
+            animation-delay: -2s;
+        }
+
+        .bubble11 {
+            width: 40px;
+            height: 40px;
+
+            top: 48%;
+            right: 5%;
+
+            animation-duration: 8s;
+            animation-delay: -5s;
+        }
+
+        .bubble12 {
+            width: 45px;
+            height: 55px;
+
+            bottom: 5%;
+            left: 35%;
+
+            animation-duration: 9s;
+            animation-delay: -3s;
+        }
+
+        /* Gentle bubble movement */
+
+        @keyframes floatBubble {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(12px, -18px) rotate(8deg);
+            }
+
+            100% {
+                transform: translate(-10px, 12px) rotate(-6deg);
+            }
+        }
+
+        /* Mobile responsiveness */
+
+        @media (max-width: 900px) {
+
+            h1 {
+                font-size: clamp(38px, 7vw, 70px);
+                letter-spacing: 2px;
+            }
+
+            .tagline {
+                font-size: clamp(11px, 1.8vw, 18px);
+                letter-spacing: 1px;
+            }
+
+            .coming-soon {
+                font-size: 25px;
+                letter-spacing: 5px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 0;
+            }
+
+            .container {
+                width: 100%;
+                min-height: 100vh;
+                min-height: 100dvh;
+                border-radius: 0;
+                padding: 40px 15px;
+            }
+
+            h1 {
+                font-size: clamp(36px, 9vw, 55px);
+                letter-spacing: 1px;
+                white-space: normal;
+            }
+
+            .tagline {
+                font-size: 14px;
+                letter-spacing: 0.5px;
+                white-space: normal;
+                margin-top: 20px;
+            }
+
+            .coming-soon {
+                font-size: 22px;
+                letter-spacing: 4px;
+                margin-top: 20px;
+            }
+
+            .sparkle {
+                font-size: 15px;
+                top: -10px;
+                right: -10px;
+            }
+
+            .bubble1,
+            .bubble2,
+            .bubble3 {
+                transform: scale(0.7);
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .bubble,
+            .dots span {
+                animation: none;
+            }
+
+            .dots span {
+                opacity: 1;
+            }
+
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>The Augment Impact</h1>
-    <p>Welcome to our official website!</p>
+
+    <main class="container">
+
+        <!-- Organic floating bubbles -->
+
+        <div class="bubble bubble1"></div>
+        <div class="bubble bubble2"></div>
+        <div class="bubble bubble3"></div>
+        <div class="bubble bubble4"></div>
+
+        <div class="bubble bubble5"></div>
+        <div class="bubble bubble6"></div>
+        <div class="bubble bubble7"></div>
+        <div class="bubble bubble8"></div>
+        <div class="bubble bubble9"></div>
+        <div class="bubble bubble10"></div>
+        <div class="bubble bubble11"></div>
+        <div class="bubble bubble12"></div>
+
+        <!-- Main website content -->
+
+        <div class="content">
+
+            <h1>THE AUGMENT IMPACT</h1>
+
+            <p class="tagline">
+                Help make a smile. Help
+                <span class="augment">
+                    augment<span class="sparkle">✦</span>
+                </span>
+                a reality.
+            </p>
+
+            <div class="coming-soon">
+                COMING SOON<span class="dots"><span>.</span><span>.</span><span>.</span></span>
+            </div>
+
+        </div>
+
+    </main>
+
 </body>
 </html>
