@@ -93,29 +93,63 @@
 
 /* Dark blue color that follows the cursor */
 
-.container::before {
-    content: "";
 
+/* Dark blue cursor trail */
+
+.trail {
     position: absolute;
-    inset: 0;
 
-    z-index: 0;
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
 
     background: radial-gradient(
-        circle 300px at
-        var(--mouse-x, 50%)
-        var(--mouse-y, 50%),
-
-        rgba(35, 104, 161, 0.65) 0%,
-        rgba(48, 127, 176, 0.35) 35%,
+        circle,
+        rgba(25, 83, 150, 0.55) 0%,
+        rgba(35, 104, 161, 0.40) 30%,
+        rgba(48, 127, 176, 0.20) 55%,
         rgba(48, 127, 176, 0) 75%
     );
 
-    opacity: var(--glow-opacity, 0);
-
     pointer-events: none;
 
-    transition: opacity 3s ease;
+    z-index: 1;
+
+    transform: translate(-50%, -50%);
+
+    animation: trailFade 3s ease-out forwards;
+}
+
+/* Each trail mark slowly disappears */
+
+@keyframes trailFade {
+
+    0% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+/* Keep the trail behind the text */
+
+.content {
+    position: relative;
+    z-index: 5;
+}
+
+/* Keep bubbles above the trail */
+
+.bubble {
+    z-index: 2;
 }
 
         /* Main content */
@@ -593,51 +627,107 @@
     </main>
 
 
+
 <script>
 
 const container = document.querySelector(".container");
 
-let fadeTimer;
+let lastX = null;
+let lastY = null;
+
+let lastTime = 0;
+
+// Create a dark blue mark at a specific position
+
+function createTrail(x, y) {
+
+    const trail = document.createElement("div");
+
+    trail.className = "trail";
+
+    trail.style.left = x + "px";
+    trail.style.top = y + "px";
+
+    container.appendChild(trail);
+
+    // Remove the mark after its animation finishes
+
+    trail.addEventListener("animationend", function() {
+
+        trail.remove();
+
+    });
+
+}
+
+// Track cursor movement across the page
 
 container.addEventListener("pointermove", function(event) {
 
-    // Find the cursor position inside the page
+    // Ignore touch input
+
+    if (event.pointerType === "touch") {
+        return;
+    }
 
     const rect = container.getBoundingClientRect();
 
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    // Move the darker blue glow to the cursor
+    const now = performance.now();
 
-    container.style.setProperty("--mouse-x", x + "px");
-    container.style.setProperty("--mouse-y", y + "px");
+    // Limit how frequently new trail marks are created
 
-    // Make the glow visible
+    if (now - lastTime < 16) {
+        return;
+    }
 
-    container.style.setProperty("--glow-opacity", "1");
+    lastTime = now;
 
-    // Reset the fade timer whenever the cursor moves
+    // Fill the space between the previous and current
+    // cursor positions to create a continuous trail
 
-    clearTimeout(fadeTimer);
+    if (lastX !== null && lastY !== null) {
 
-    // Fade the glow away after the cursor stops moving
+        const dx = x - lastX;
+        const dy = y - lastY;
 
-    fadeTimer = setTimeout(function() {
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        container.style.setProperty("--glow-opacity", "0");
+        const steps = Math.min(
+            Math.ceil(distance / 25),
+            20
+        );
 
-    }, 500);
+        for (let i = 1; i <= steps; i++) {
+
+            const progress = i / steps;
+
+            const trailX = lastX + dx * progress;
+            const trailY = lastY + dy * progress;
+
+            createTrail(trailX, trailY);
+
+        }
+
+    } else {
+
+        createTrail(x, y);
+
+    }
+
+    lastX = x;
+    lastY = y;
 
 });
 
-// Fade away when the cursor leaves the website
+// Reset tracking when the cursor leaves the page
 
 container.addEventListener("pointerleave", function() {
 
-    clearTimeout(fadeTimer);
-
-    container.style.setProperty("--glow-opacity", "0");
+    lastX = null;
+    lastY = null;
 
 });
 
