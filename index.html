@@ -566,23 +566,6 @@
 
         }
 
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            padding: 18px 38px;
-            background: rgba(255, 255, 255, 0.06);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 20;
-        }
-
         .brand {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: clamp(20px, 2vw, 30px);
@@ -614,44 +597,70 @@
             opacity: 1;
         }
 
-        .access-overlay {
+        .topbar {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(15, 38, 59, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 38px;
+            background: rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 20;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        body.unlocked .topbar {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .access-lock {
+            position: fixed;
+            left: 50%;
+            bottom: 8px;
+            transform: translateX(-50%);
+            width: min(84vw, 360px);
+            padding: 6px 10px 8px;
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(17, 42, 64, 0.26);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 18px rgba(0, 28, 52, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 100;
         }
 
-        .access-overlay.hidden {
+        body.unlocked .access-lock {
             display: none;
         }
 
         .access-card {
-            width: min(90vw, 420px);
-            padding: 30px 24px;
-            border-radius: 22px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 18px 45px rgba(0, 28, 52, 0.25);
+            width: 100%;
         }
 
         .access-card p {
-            margin-bottom: 12px;
-            color: rgba(255, 255, 255, 0.82);
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.8);
             letter-spacing: 2px;
             text-transform: uppercase;
-            font-size: 11px;
+            font-size: 8px;
         }
 
         .access-card h2 {
-            margin-bottom: 16px;
+            margin-bottom: 4px;
             color: #ffffff;
-            font-size: 30px;
+            font-size: 15px;
             letter-spacing: 1px;
             text-transform: uppercase;
             font-family: 'Barlow Condensed', sans-serif;
@@ -659,19 +668,21 @@
 
         .access-form {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             justify-content: center;
-            margin-top: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 0;
         }
 
         .access-form input {
-            width: 150px;
-            padding: 12px 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.08);
+            width: 120px;
+            padding: 6px 8px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.05);
             color: #ffffff;
-            font-size: 16px;
+            font-size: 12px;
             outline: none;
         }
 
@@ -680,22 +691,23 @@
         }
 
         .access-form button {
-            padding: 12px 18px;
+            padding: 6px 10px;
             border: none;
-            border-radius: 12px;
+            border-radius: 7px;
             background: #1c5f8e;
             color: #ffffff;
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
             cursor: pointer;
+            font-size: 10px;
         }
 
         .access-error {
-            margin-top: 18px;
-            min-height: 20px;
+            margin-top: 6px;
+            min-height: 14px;
             color: #ffd7d7;
-            font-size: 14px;
+            font-size: 10px;
         }
 
         @media (max-width: 700px) {
@@ -738,7 +750,7 @@
 
 <body>
 
-    <div class="access-overlay" id="accessOverlay">
+    <div class="access-lock" id="accessLock">
         <div class="access-card">
             <p>Private access</p>
             <h2>Enter code</h2>
@@ -750,7 +762,7 @@
         </div>
     </div>
 
-    <header class="topbar">
+    <header class="topbar" id="topbar">
         <div class="brand">The Augment Impact</div>
         <nav class="nav-links" aria-label="Main menu">
             <a href="index.html">Home</a>
@@ -805,12 +817,38 @@
 <script>
 
 const ACCESS_CODE = "1234";
-const accessOverlay = document.getElementById("accessOverlay");
+const ACCESS_KEY = "augmentImpactSessionAccess";
+const accessLock = document.getElementById("accessLock");
 const accessForm = document.getElementById("accessForm");
 const accessInput = document.getElementById("accessInput");
 const accessError = document.getElementById("accessError");
+const navEntry = performance.getEntriesByType("navigation")[0];
+const isReload = navEntry ? navEntry.type === "reload" : false;
+const isHomePage = window.location.pathname.endsWith("index.html") || window.location.pathname === "/";
 
-accessOverlay.classList.remove("hidden");
+if (isReload && !isHomePage) {
+    window.location.href = "index.html";
+}
+
+if (isReload) {
+    sessionStorage.removeItem(ACCESS_KEY);
+}
+
+const unlockSite = () => {
+    document.body.classList.add("unlocked");
+    accessLock.style.display = "none";
+};
+
+const lockSite = () => {
+    document.body.classList.remove("unlocked");
+    accessLock.style.display = "block";
+};
+
+if (sessionStorage.getItem(ACCESS_KEY) === ACCESS_CODE) {
+    unlockSite();
+} else {
+    lockSite();
+}
 
 accessForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -818,7 +856,8 @@ accessForm.addEventListener("submit", function(event) {
     const enteredCode = accessInput.value.trim();
 
     if (enteredCode === ACCESS_CODE) {
-        accessOverlay.classList.add("hidden");
+        sessionStorage.setItem(ACCESS_KEY, ACCESS_CODE);
+        unlockSite();
         accessError.textContent = "";
         accessInput.value = "";
         return;
